@@ -1,74 +1,92 @@
 # claude-no-ai-attribution
 
-Скилл для [Claude Code](https://code.claude.com), который не даёт Claude добавлять себя в авторы коммитов. С ним на GitHub не появляются надпись «you **and claude**» у коммита и `claude` в списке **Contributors**.
+A [Claude Code](https://code.claude.com) skill that stops Claude from adding itself to your commits.
 
-> 🇬🇧 *English summary below.*
+Without it, GitHub shows **"you and claude"** on commits and lists **claude** under the repository's **Contributors**. With it, only you are the author.
 
-## Почему Claude попадает в контрибьюторы
+> 🇷🇺 *Описание на русском — ниже.*
 
-По умолчанию Claude Code добавляет в конец каждого коммита строку:
+## Why Claude shows up as a contributor
+
+By default, Claude Code ends every commit message with:
 
 ```
 Co-Authored-By: Claude <noreply@anthropic.com>
 ```
 
-GitHub считает такую строку соавторством. В облачных сессиях Claude иногда ещё и коммитит под своим именем: `Claude <noreply@anthropic.com>`.
+GitHub treats that line as co-authorship. In some environments, such as cloud sessions, Claude may also commit under its own name: `Claude <noreply@anthropic.com>`.
 
-## Что внутри
+## What's inside
 
-| Файл | Что делает |
+| File | What it does |
 |---|---|
-| `skills/no-ai-attribution/SKILL.md` | Сам скилл. Запрещает строки `Co-Authored-By`, `Claude-Session` и `Generated with Claude Code`, требует, чтобы автором был человек, и проверять коммиты перед пушем. |
-| `examples/settings.json` | Настройка Claude Code, которая полностью выключает автоматическую подпись. |
-| `examples/CLAUDE.md` | Короткое правило для `CLAUDE.md`. Действует, даже если скилл не загрузился. |
+| `skills/no-ai-attribution/SKILL.md` | The skill. It forbids `Co-Authored-By`, `Claude-Session` and `Generated with Claude Code` lines, makes the human the commit author, and checks commits before every push. |
+| `examples/settings.json` | Claude Code setting that turns off the built-in attribution. |
+| `examples/CLAUDE.md` | A short rule for `CLAUDE.md`. It works even when the skill isn't loaded. |
+| `install.sh` | Installs all three parts with one command. |
 
-Для надёжности ставьте все три части: настройка выключает подпись, а скилл и `CLAUDE.md` закрывают случаи, когда подпись добавляет не Claude Code, а инструкция окружения (например, в облачных сессиях).
+The setting turns off Claude Code's own attribution. The skill and the `CLAUDE.md` rule cover the cases where the attribution comes from elsewhere, such as an environment's instructions. Install all three.
 
-## Установка
+## Install
 
-### Для всех проектов (рекомендуется)
+### For all your projects
 
 ```sh
 git clone https://github.com/xreamm1/claude-no-ai-attribution
-mkdir -p ~/.claude/skills
-cp -r claude-no-ai-attribution/skills/no-ai-attribution ~/.claude/skills/
+sh claude-no-ai-attribution/install.sh
 ```
 
-Добавьте в `~/.claude/settings.json` (если файл уже есть, просто допишите эти ключи):
+The script:
 
-```json
-{
-  "attribution": { "commit": "", "pr": "" },
-  "includeCoAuthoredBy": false
-}
+- copies the skill to `~/.claude/skills/`;
+- sets `"attribution": {"commit": "", "pr": ""}` in `~/.claude/settings.json` and keeps your other settings;
+- appends the rule to `~/.claude/CLAUDE.md` (only once).
+
+Restart Claude Code afterwards.
+
+### For one repository
+
+```sh
+sh claude-no-ai-attribution/install.sh path/to/your-repo
 ```
 
-Добавьте содержимое `examples/CLAUDE.md` в `~/.claude/CLAUDE.md`.
+Then commit `.claude/` and `CLAUDE.md` in that repository. This also works for cloud sessions on claude.ai/code and for everyone else who uses Claude in that repository.
 
-### Для одного репозитория
+### Manually
 
-Скопируйте файлы в репозиторий и закоммитьте их. Тогда правило будет работать и в облачных сессиях claude.ai/code:
+1. Copy `skills/no-ai-attribution` to `~/.claude/skills/` or `<repo>/.claude/skills/`.
+2. Add the keys from `examples/settings.json` to your `settings.json`.
+3. Add the text from `examples/CLAUDE.md` to your `CLAUDE.md`.
 
-```
-.claude/skills/no-ai-attribution/SKILL.md
-.claude/settings.json
-CLAUDE.md
-```
+## Claude is already in my history
 
-## Если Claude уже есть в истории
+The skill only affects new commits. To clean old ones, rewrite them: remove the `Co-Authored-By` lines and change the author, then run `git push --force`. A force-push replaces the history on GitHub, so warn your collaborators first.
 
-Скилл действует только на новые коммиты. Старые нужно переписать: удалить строки `Co-Authored-By` и сменить автора, а затем сделать `git push --force`. Учтите, что force-push заменяет историю на GitHub.
+After that, GitHub may keep showing Claude under **Contributors** for a while. The list is cached and can take from a few hours to a couple of days to update. A new commit on the default branch usually makes it update sooner.
 
-После этого GitHub ещё какое-то время показывает Claude в **Contributors**: список кэшируется, обновление может занять от нескольких часов до пары дней. Новый коммит в основную ветку обычно ускоряет пересчёт.
+## License
 
-## Лицензия
-
-[MIT](LICENSE)
+[MIT](LICENSE). Use, copy and share it freely.
 
 ---
 
-## English summary
+## 🇷🇺 На русском
 
-This is a Claude Code skill that keeps Claude out of your git history. With it, Claude doesn't add `Co-Authored-By: Claude`, `Claude-Session` or `Generated with Claude Code` lines, and doesn't commit as `Claude <noreply@anthropic.com>`. Your commits stop showing "and claude", and Claude doesn't appear in a repository's Contributors list.
+Скилл для Claude Code, который не даёт Claude добавлять себя в соавторы коммитов. С ним у коммитов на GitHub не появляется надпись «… **and claude**», а в списке **Contributors** — `claude`.
 
-To install it, copy `skills/no-ai-attribution` to `~/.claude/skills/`. Then set `"attribution": {"commit": "", "pr": ""}` in `~/.claude/settings.json` and append `examples/CLAUDE.md` to your `~/.claude/CLAUDE.md`.
+**Установка для всех проектов:**
+
+```sh
+git clone https://github.com/xreamm1/claude-no-ai-attribution
+sh claude-no-ai-attribution/install.sh
+```
+
+**Для одного репозитория:** `sh claude-no-ai-attribution/install.sh путь/к/репозиторию`. Затем закоммитьте `.claude/` и `CLAUDE.md`.
+
+Скрипт делает три вещи:
+
+- копирует скилл в `.claude/skills/`;
+- выключает встроенную подпись Claude Code в `settings.json` и сохраняет остальные ваши настройки;
+- добавляет правило в `CLAUDE.md`.
+
+Скилл действует только на новые коммиты. Если Claude уже есть в истории, коммиты нужно переписать и сделать force-push. После этого GitHub ещё какое-то время показывает старый список **Contributors**: он кэшируется, обновление может занять от нескольких часов до пары дней.
