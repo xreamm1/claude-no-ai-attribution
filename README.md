@@ -41,7 +41,8 @@ With this skill, only you are the author.
 | [`skills/no-ai-attribution/SKILL.md`](skills/no-ai-attribution/SKILL.md) | The skill. It forbids `Co-Authored-By`, `Claude-Session` and `Generated with Claude Code` lines, makes the human the commit author, and checks commits before every push. |
 | [`examples/settings.json`](examples/settings.json) | Claude Code setting that turns off the built-in attribution. |
 | [`examples/CLAUDE.md`](examples/CLAUDE.md) | A short rule for `CLAUDE.md`. It works even when the skill isn't loaded. |
-| [`install.sh`](install.sh) | Installs all three parts with one command. |
+| [`hooks/no-ai-attribution.sh`](hooks/no-ai-attribution.sh) | Runs automatically at session start, even if the model ignores the skill. It sets your name as the commit author, strips attribution lines from every commit message, and blocks commits authored by `Claude <noreply@anthropic.com>`. |
+| [`install.sh`](install.sh) | Installs everything with one command. `--name` and `--email` set the commit author. You need them for cloud sessions on claude.ai/code, where git is preconfigured as Claude. |
 
 ## Install
 
@@ -49,7 +50,7 @@ With this skill, only you are the author.
 
 ```sh
 git clone https://github.com/xreamm1/claude-no-ai-attribution
-sh claude-no-ai-attribution/install.sh
+sh claude-no-ai-attribution/install.sh --name "Your Name" --email "you@example.com"
 ```
 
 The script copies the skill to `~/.claude/skills/`, sets `"attribution": {"commit": "", "pr": ""}` in `~/.claude/settings.json` (keeping your other settings), and appends the rule to `~/.claude/CLAUDE.md` once. Restart Claude Code afterwards.
@@ -57,7 +58,7 @@ The script copies the skill to `~/.claude/skills/`, sets `"attribution": {"commi
 **For one repository:**
 
 ```sh
-sh claude-no-ai-attribution/install.sh path/to/your-repo
+sh claude-no-ai-attribution/install.sh path/to/your-repo --name "Your Name" --email "you@example.com"
 ```
 
 Then commit `.claude/` and `CLAUDE.md`. The rule then also applies to cloud sessions on claude.ai/code and to everyone else who uses Claude in that repository.

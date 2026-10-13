@@ -41,7 +41,8 @@ GitHub считает её соавторством. Из-за этого у к�
 | [`skills/no-ai-attribution/SKILL.md`](skills/no-ai-attribution/SKILL.md) | Сам скилл. Запрещает строки `Co-Authored-By`, `Claude-Session` и `Generated with Claude Code`, делает автором человека и проверяет коммиты перед каждым пушем. |
 | [`examples/settings.json`](examples/settings.json) | Настройка Claude Code, которая выключает встроенную подпись. |
 | [`examples/CLAUDE.md`](examples/CLAUDE.md) | Короткое правило для `CLAUDE.md`. Работает, даже если скилл не загрузился. |
-| [`install.sh`](install.sh) | Ставит все три части одной командой. |
+| [`hooks/no-ai-attribution.sh`](hooks/no-ai-attribution.sh) | Запускается автоматически при старте сессии, даже если модель проигнорирует скилл. Ставит вас автором коммитов, вырезает строки подписи из каждого коммита и блокирует коммиты от имени `Claude <noreply@anthropic.com>`. |
+| [`install.sh`](install.sh) | Ставит всё одной командой. `--name` и `--email` задают автора коммитов. Они нужны для облачных сессий claude.ai/code, где git заранее настроен на имя Claude. |
 
 ## Установка
 
@@ -49,7 +50,7 @@ GitHub считает её соавторством. Из-за этого у к�
 
 ```sh
 git clone https://github.com/xreamm1/claude-no-ai-attribution
-sh claude-no-ai-attribution/install.sh
+sh claude-no-ai-attribution/install.sh --name "Your Name" --email "you@example.com"
 ```
 
 Скрипт копирует скилл в `~/.claude/skills/`, прописывает `"attribution": {"commit": "", "pr": ""}` в `~/.claude/settings.json` (остальные настройки сохраняются) и один раз добавляет правило в `~/.claude/CLAUDE.md`. После установки перезапустите Claude Code.
@@ -57,7 +58,7 @@ sh claude-no-ai-attribution/install.sh
 **Для одного репозитория:**
 
 ```sh
-sh claude-no-ai-attribution/install.sh path/to/your-repo
+sh claude-no-ai-attribution/install.sh path/to/your-repo --name "Your Name" --email "you@example.com"
 ```
 
 Затем закоммитьте `.claude/` и `CLAUDE.md`. Тогда правило действует и в облачных сессиях claude.ai/code, и у всех, кто работает с Claude в этом репозитории.

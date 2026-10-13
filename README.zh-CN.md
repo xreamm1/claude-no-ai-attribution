@@ -41,7 +41,8 @@ GitHub 会把这一行视为共同作者。于是你的提交会显示 **"你 an
 | [`skills/no-ai-attribution/SKILL.md`](skills/no-ai-attribution/SKILL.md) | 技能本身。禁止 `Co-Authored-By`、`Claude-Session` 和 `Generated with Claude Code` 行，确保提交作者是人，并在每次推送前检查提交。 |
 | [`examples/settings.json`](examples/settings.json) | 关闭 Claude Code 内置署名的设置。 |
 | [`examples/CLAUDE.md`](examples/CLAUDE.md) | 写入 `CLAUDE.md` 的简短规则，即使技能未加载也能生效。 |
-| [`install.sh`](install.sh) | 一条命令安装以上三部分。 |
+| [`hooks/no-ai-attribution.sh`](hooks/no-ai-attribution.sh) | 会话开始时自动运行，即使模型忽略了技能也会生效。它把你设为提交作者，删除每条提交信息中的署名行，并阻止以 `Claude <noreply@anthropic.com>` 为作者的提交。 |
+| [`install.sh`](install.sh) | 一条命令安装全部内容。`--name` 和 `--email` 用于设置提交作者。在 claude.ai/code 云端会话中必须提供，因为那里的 git 默认配置为 Claude。 |
 
 ## 安装
 
@@ -49,7 +50,7 @@ GitHub 会把这一行视为共同作者。于是你的提交会显示 **"你 an
 
 ```sh
 git clone https://github.com/xreamm1/claude-no-ai-attribution
-sh claude-no-ai-attribution/install.sh
+sh claude-no-ai-attribution/install.sh --name "Your Name" --email "you@example.com"
 ```
 
 脚本会把技能复制到 `~/.claude/skills/`，在 `~/.claude/settings.json` 中设置 `"attribution": {"commit": "", "pr": ""}`（保留你的其他设置），并在 `~/.claude/CLAUDE.md` 中添加一次规则。安装后请重启 Claude Code。
@@ -57,7 +58,7 @@ sh claude-no-ai-attribution/install.sh
 **仅用于一个仓库：**
 
 ```sh
-sh claude-no-ai-attribution/install.sh path/to/your-repo
+sh claude-no-ai-attribution/install.sh path/to/your-repo --name "Your Name" --email "you@example.com"
 ```
 
 然后提交 `.claude/` 和 `CLAUDE.md`。这样规则也会作用于 claude.ai/code 的云端会话，以及在该仓库中使用 Claude 的所有人。

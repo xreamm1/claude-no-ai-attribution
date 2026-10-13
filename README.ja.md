@@ -41,7 +41,8 @@ GitHub はこの行を共同作成者として扱います。その結果、コ�
 | [`skills/no-ai-attribution/SKILL.md`](skills/no-ai-attribution/SKILL.md) | スキル本体。`Co-Authored-By`、`Claude-Session`、`Generated with Claude Code` の行を禁止し、コミットの作成者を人間にして、プッシュ前にコミットを確認します。 |
 | [`examples/settings.json`](examples/settings.json) | Claude Code の組み込みの署名をオフにする設定です。 |
 | [`examples/CLAUDE.md`](examples/CLAUDE.md) | `CLAUDE.md` 用の短いルールです。スキルが読み込まれなくても機能します。 |
-| [`install.sh`](install.sh) | 上の 3 つを 1 つのコマンドでインストールします。 |
+| [`hooks/no-ai-attribution.sh`](hooks/no-ai-attribution.sh) | セッション開始時に自動で実行され、モデルがスキルを無視しても機能します。コミットの作成者をあなたに設定し、すべてのコミットメッセージから署名行を削除し、`Claude <noreply@anthropic.com>` が作成者のコミットをブロックします。 |
+| [`install.sh`](install.sh) | すべてを 1 つのコマンドでインストールします。`--name` と `--email` でコミットの作成者を指定します。git が Claude として事前設定されている claude.ai/code のクラウドセッションでは必須です。 |
 
 ## インストール
 
@@ -49,7 +50,7 @@ GitHub はこの行を共同作成者として扱います。その結果、コ�
 
 ```sh
 git clone https://github.com/xreamm1/claude-no-ai-attribution
-sh claude-no-ai-attribution/install.sh
+sh claude-no-ai-attribution/install.sh --name "Your Name" --email "you@example.com"
 ```
 
 スクリプトはスキルを `~/.claude/skills/` にコピーし、`~/.claude/settings.json` に `"attribution": {"commit": "", "pr": ""}` を設定し（ほかの設定はそのまま残ります）、`~/.claude/CLAUDE.md` にルールを一度だけ追加します。その後 Claude Code を再起動してください。
@@ -57,7 +58,7 @@ sh claude-no-ai-attribution/install.sh
 **1 つのリポジトリだけに適用：**
 
 ```sh
-sh claude-no-ai-attribution/install.sh path/to/your-repo
+sh claude-no-ai-attribution/install.sh path/to/your-repo --name "Your Name" --email "you@example.com"
 ```
 
 その後 `.claude/` と `CLAUDE.md` をコミットします。これで claude.ai/code のクラウドセッションや、そのリポジトリで Claude を使う全員にもルールが適用されます。

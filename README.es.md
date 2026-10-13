@@ -41,7 +41,8 @@ Con este skill, solo tú eres el autor.
 | [`skills/no-ai-attribution/SKILL.md`](skills/no-ai-attribution/SKILL.md) | El skill. Prohíbe las líneas `Co-Authored-By`, `Claude-Session` y `Generated with Claude Code`, hace que el autor sea la persona y revisa los commits antes de cada push. |
 | [`examples/settings.json`](examples/settings.json) | Ajuste de Claude Code que desactiva la atribución integrada. |
 | [`examples/CLAUDE.md`](examples/CLAUDE.md) | Una regla breve para `CLAUDE.md`. Funciona aunque el skill no se cargue. |
-| [`install.sh`](install.sh) | Instala las tres partes con un solo comando. |
+| [`hooks/no-ai-attribution.sh`](hooks/no-ai-attribution.sh) | Se ejecuta automáticamente al iniciar la sesión, aunque el modelo ignore el skill. Te pone como autor de los commits, elimina las líneas de atribución de cada mensaje y bloquea los commits con autor `Claude <noreply@anthropic.com>`. |
+| [`install.sh`](install.sh) | Lo instala todo con un solo comando. `--name` y `--email` definen el autor de los commits. Son necesarios en las sesiones en la nube de claude.ai/code, donde git viene configurado como Claude. |
 
 ## Instalación
 
@@ -49,7 +50,7 @@ Con este skill, solo tú eres el autor.
 
 ```sh
 git clone https://github.com/xreamm1/claude-no-ai-attribution
-sh claude-no-ai-attribution/install.sh
+sh claude-no-ai-attribution/install.sh --name "Your Name" --email "you@example.com"
 ```
 
 El script copia el skill a `~/.claude/skills/`, establece `"attribution": {"commit": "", "pr": ""}` en `~/.claude/settings.json` (conserva tus demás ajustes) y añade la regla a `~/.claude/CLAUDE.md` una sola vez. Después reinicia Claude Code.
@@ -57,7 +58,7 @@ El script copia el skill a `~/.claude/skills/`, establece `"attribution": {"comm
 **Para un solo repositorio:**
 
 ```sh
-sh claude-no-ai-attribution/install.sh path/to/your-repo
+sh claude-no-ai-attribution/install.sh path/to/your-repo --name "Your Name" --email "you@example.com"
 ```
 
 Luego haz commit de `.claude/` y `CLAUDE.md`. Así la regla también se aplica a las sesiones en la nube de claude.ai/code y a cualquiera que use Claude en ese repositorio.
