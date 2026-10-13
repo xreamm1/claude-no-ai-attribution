@@ -4,6 +4,10 @@
 
 <p>Claude がコミットの共同作成者や GitHub のコントリビューターとして自分を追加しないようにする Claude Code スキルです。</p>
 
+<h3>🧹 <code>/no-ai-attribution</code></h3>
+
+<p><b>クリーンアップコマンドです。Claude Code で入力すると、Claude がリポジトリから消えます。<code>claude/...</code> ブランチは <code>main</code> に移り、Claude は作成者、共同作成者、コミットメッセージから削除されます。</b></p>
+
 <p>
 <img src="https://flagcdn.com/20x15/gb.png" width="20" height="15" alt="gb"> <a href="README.md">English</a> |
 <img src="https://flagcdn.com/20x15/ru.png" width="20" height="15" alt="ru"> <a href="README.ru.md">Русский</a> |

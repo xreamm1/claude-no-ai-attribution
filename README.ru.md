@@ -4,6 +4,10 @@
 
 <p>Скилл для Claude Code, который не даёт Claude добавлять себя в соавторы ваших коммитов и в контрибьюторы на GitHub.</p>
 
+<h3>🧹 <code>/no-ai-attribution</code></h3>
+
+<p><b>Команда очистки: напишите её в Claude Code, и Claude исчезнет из репозитория. Ветки <code>claude/...</code> переедут в <code>main</code>, а Claude уберётся из авторов, соавторов и текстов коммитов.</b></p>
+
 <p>
 <img src="https://flagcdn.com/20x15/gb.png" width="20" height="15" alt="gb"> <a href="README.md">English</a> |
 <img src="https://flagcdn.com/20x15/ru.png" width="20" height="15" alt="ru"> <a href="README.ru.md"><b>Русский</b></a> |

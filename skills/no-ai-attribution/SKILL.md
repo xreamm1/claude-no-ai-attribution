@@ -192,10 +192,13 @@ branches. Don't ask again.
    uncommitted changes).
 3. Save the cleanup script below to `.git/no-ai-attribution-cleanup.sh`
    exactly as written and run `sh .git/no-ai-attribution-cleanup.sh`.
-4. Act on its last lines:
+4. Act on its last lines. **Report the cleanup as done only if the last line
+   starts with `no-ai-attribution: DONE`.** The script checks GitHub itself
+   before printing it. Any other ending means it is not done, whatever else
+   you see:
    - `DONE` — tell the user, in a few lines, what was merged and deleted.
-   - `ACTION NEEDED` — the GitHub default branch is still a `claude/...`
-     branch, and GitHub won't delete the default branch. If you have a GitHub
+   - `ACTION NEEDED` — `claude/...` branches are still on GitHub. Usually one
+     of them is the GitHub default branch, and GitHub won't delete it. If you have a GitHub
      tool that can change the default branch, set it to `main` and run the
      cleanup again. Otherwise tell the user: **Settings → General → Default
      branch → main**, then type `/no-ai-attribution` again.
@@ -236,7 +239,11 @@ git fetch -q origin '+refs/heads/*:refs/remotes/origin/*' --prune 2>/dev/null
 if [ "$(git rev-parse --is-shallow-repository)" = true ]; then
   git fetch -q --unshallow origin '+refs/heads/*:refs/remotes/origin/*' 2>/dev/null || true
 fi
+# The GitHub default branch: several ways, because proxies may hide the symref.
 default="$(git ls-remote --symref origin HEAD 2>/dev/null | sed -n 's#^ref: refs/heads/\(.*\)[[:space:]]HEAD$#\1#p')"
+[ -n "$default" ] || default="$(git remote show origin 2>/dev/null | sed -n 's/^ *HEAD branch: //p')"
+[ "$default" = "(unknown)" ] && default=""
+[ -n "$default" ] || default="$(git symbolic-ref --short -q refs/remotes/origin/HEAD 2>/dev/null | sed 's#^origin/##')"
 remote_claude="$(git for-each-ref --format='%(refname:strip=3)' refs/remotes/origin/claude/)"
 local_claude="$(git for-each-ref --format='%(refname:short)' refs/heads/claude/)"
 
@@ -291,21 +298,29 @@ if ! out="$(git push -u --force-with-lease origin main 2>&1)"; then
   say "STOP. Pushing main failed: $(printf '%s' "$out" | tail -n 1)"; exit 1
 fi
 
-# 6. Delete the claude/* branches (not the GitHub default branch: change it first).
-deleted=""; blocked=""
+# 6. Delete the claude/* branches. GitHub refuses to delete the default branch.
+deleted=""
 for b in $remote_claude; do
-  if [ "$b" = "$default" ]; then blocked="$b"; continue; fi
+  [ "$b" = "$default" ] && continue
   git push -q origin --delete "$b" 2>/dev/null && deleted="$deleted $b"
 done
 for b in $local_claude; do git branch -q -D "$b" 2>/dev/null; done
 
+# 7. Verify on GitHub itself. Never report DONE unless this check passes.
 [ "$before" = "$(git rev-parse main)" ] && rewritten="no changes needed" || rewritten="rewritten"
 say "main pushed (history $rewritten). Merged:${merged:- nothing}. Deleted branches:${deleted:- none}."
-if [ -n "$blocked" ]; then
-  say "ACTION NEEDED: the GitHub default branch is $blocked. Make main the default (a GitHub tool, or Settings -> General -> Default branch -> main), then delete $blocked (git push origin --delete $blocked) or run the cleanup again."
-else
-  say "DONE. Claude is gone from main: no Claude authors, co-authors or credit lines, no claude/* branches. GitHub may show the old Contributors list for a few hours (cache)."
+left_branches="$(git ls-remote --heads origin 2>/dev/null | sed -n 's#.*refs/heads/\(claude/.*\)$#\1#p' | tr '\n' ' ')"
+remote_main="$(git ls-remote --heads origin main 2>/dev/null | cut -f1)"
+if [ "$remote_main" != "$(git rev-parse main)" ]; then
+  say "STOP. NOT DONE: main on GitHub doesn't match the cleaned main. Push it again: git push -u --force-with-lease origin main"
+  exit 1
 fi
+if [ -n "$left_branches" ]; then
+  say "ACTION NEEDED. NOT DONE: these branches are still on GitHub: $left_branches"
+  say "If one of them is the GitHub default branch (Claude still shows as author on the repository's main page), the user must switch the default: Settings -> General -> Default branch -> main. Tell the user exactly this, then ask them to type /no-ai-attribution again. Don't say the cleanup is done."
+  exit 2
+fi
+say "DONE. Verified on GitHub: main has no Claude authors, co-authors or credit lines, and no claude/* branches are left. GitHub may show the old Contributors list for a few hours (cache)."
 exit 0
 # <<< no-ai-attribution cleanup <<<
 ```

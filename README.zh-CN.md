@@ -4,6 +4,10 @@
 
 <p>一个 Claude Code 技能（skill），阻止 Claude 把自己添加为提交的共同作者和 GitHub 贡献者。</p>
 
+<h3>🧹 <code>/no-ai-attribution</code></h3>
+
+<p><b>清理命令：在 Claude Code 中输入它，Claude 就会从你的仓库中消失。<code>claude/...</code> 分支会合并到 <code>main</code>，Claude 也会从作者、共同作者和提交信息中移除。</b></p>
+
 <p>
 <img src="https://flagcdn.com/20x15/gb.png" width="20" height="15" alt="gb"> <a href="README.md">English</a> |
 <img src="https://flagcdn.com/20x15/ru.png" width="20" height="15" alt="ru"> <a href="README.ru.md">Русский</a> |

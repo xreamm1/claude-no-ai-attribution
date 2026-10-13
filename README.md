@@ -4,6 +4,10 @@
 
 <p>A Claude Code skill that stops Claude from adding itself as a co-author to your commits and GitHub contributors.</p>
 
+<h3>🧹 <code>/no-ai-attribution</code></h3>
+
+<p><b>The cleanup command: type it in Claude Code and Claude disappears from your repository. Its <code>claude/...</code> branches move into <code>main</code>, and Claude is removed from authors, co-authors and commit messages.</b></p>
+
 <p>
 <img src="https://flagcdn.com/20x15/gb.png" width="20" height="15" alt="gb"> <a href="README.md"><b>English</b></a> |
 <img src="https://flagcdn.com/20x15/ru.png" width="20" height="15" alt="ru"> <a href="README.ru.md">Русский</a> |
