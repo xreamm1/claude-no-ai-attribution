@@ -50,10 +50,10 @@ With this skill, only you are the author.
 That's it. Claude then:
 
 - moves the work from every `claude/...` branch into **`main`** and deletes the `claude/...` branches;
-- removes Claude from the history of `main`. Commits authored by Claude become yours, and the `Co-Authored-By`, `Claude-Session` and "Generated with Claude Code" lines disappear. The code doesn't change;
+- removes Claude from the history of **every branch** (`main`, `dev`, feature branches…). Commits authored by Claude become yours, and the `Co-Authored-By`, `Claude-Session` and "Generated with Claude Code" lines disappear. The code doesn't change;
 - makes you the only author of all new commits and keeps working on `main`.
 
-Typing the command is your consent to rewrite the history of `main` and force-push it, so Claude won't ask again. If the repository's default branch is still `claude/...`, Claude asks you to switch it to `main` (**Settings → General → Default branch**) and type the command once more. GitHub may keep showing the old **Contributors** list for a few hours, because it's cached.
+Typing the command is your consent to rewrite the history of your branches and force-push them, so Claude won't ask again. If the repository's default branch is still `claude/...`, Claude asks you to switch it to `main` (**Settings → General → Default branch**) and type the command once more. GitHub may keep showing the old **Contributors** list for a few hours, because it's cached.
 
 ## What's inside
 

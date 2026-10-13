@@ -50,10 +50,10 @@ GitHub 会把这一行视为共同作者。于是你的提交会显示 **"你 an
 就这样。接下来 Claude 会：
 
 - 把所有 `claude/...` 分支上的工作移到 **`main`**，并删除 `claude/...` 分支；
-- 从 `main` 的历史中移除 Claude。作者为 Claude 的提交改为你的提交，`Co-Authored-By`、`Claude-Session` 和 “Generated with Claude Code” 行都会消失。代码本身不会改变；
+- 从**所有分支**（`main`、`dev` 及其他分支）的历史中移除 Claude。作者为 Claude 的提交改为你的提交，`Co-Authored-By`、`Claude-Session` 和 “Generated with Claude Code” 行都会消失。代码本身不会改变；
 - 让你成为所有新提交的唯一作者，并继续在 `main` 上工作。
 
-输入该命令即表示你同意重写 `main` 的历史并强制推送，因此 Claude 不会再次询问。如果仓库的默认分支仍是 `claude/...`，Claude 会请你把它改为 `main`（**Settings → General → Default branch**），然后再输入一次命令。由于有缓存，GitHub 的 **Contributors** 列表可能在几个小时内仍显示旧内容。
+输入该命令即表示你同意重写各分支的历史并强制推送，因此 Claude 不会再次询问。如果仓库的默认分支仍是 `claude/...`，Claude 会请你把它改为 `main`（**Settings → General → Default branch**），然后再输入一次命令。由于有缓存，GitHub 的 **Contributors** 列表可能在几个小时内仍显示旧内容。
 
 ## 包含内容
 

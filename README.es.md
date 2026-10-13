@@ -50,10 +50,10 @@ Con este skill, solo tú eres el autor.
 Eso es todo. Claude entonces:
 
 - mueve el trabajo de todas las ramas `claude/...` a **`main`** y borra las ramas `claude/...`;
-- elimina a Claude del historial de `main`. Los commits con autor Claude pasan a ser tuyos, y desaparecen las líneas `Co-Authored-By`, `Claude-Session` y "Generated with Claude Code". El código no cambia;
+- elimina a Claude del historial de **todas las ramas** (`main`, `dev` y cualquier otra). Los commits con autor Claude pasan a ser tuyos, y desaparecen las líneas `Co-Authored-By`, `Claude-Session` y "Generated with Claude Code". El código no cambia;
 - te deja como único autor de todos los commits nuevos y sigue trabajando en `main`.
 
-Escribir el comando es tu consentimiento para reescribir el historial de `main` y hacer force-push, así que Claude no volverá a preguntar. Si la rama por defecto del repositorio sigue siendo `claude/...`, Claude te pedirá que la cambies a `main` (**Settings → General → Default branch**) y escribas el comando otra vez. GitHub puede seguir mostrando la lista antigua de **Contributors** durante unas horas, porque está en caché.
+Escribir el comando es tu consentimiento para reescribir el historial de las ramas y hacer force-push, así que Claude no volverá a preguntar. Si la rama por defecto del repositorio sigue siendo `claude/...`, Claude te pedirá que la cambies a `main` (**Settings → General → Default branch**) y escribas el comando otra vez. GitHub puede seguir mostrando la lista antigua de **Contributors** durante unas horas, porque está en caché.
 
 ## Contenido
 

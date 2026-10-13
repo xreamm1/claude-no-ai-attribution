@@ -50,10 +50,10 @@ GitHub はこの行を共同作成者として扱います。その結果、コ�
 これだけです。Claude は次のことを行います。
 
 - すべての `claude/...` ブランチの作業を **`main`** に移し、`claude/...` ブランチを削除します。
-- `main` の履歴から Claude を取り除きます。Claude が作成者のコミットはあなたのものになり、`Co-Authored-By`、`Claude-Session`、「Generated with Claude Code」の行は消えます。コード自体は変わりません。
+- **すべてのブランチ**（`main`、`dev` など）の履歴から Claude を取り除きます。Claude が作成者のコミットはあなたのものになり、`Co-Authored-By`、`Claude-Session`、「Generated with Claude Code」の行は消えます。コード自体は変わりません。
 - 以降のすべてのコミットの作成者をあなただけにし、`main` で作業を続けます。
 
-このコマンドを入力すると、`main` の履歴の書き換えと強制プッシュに同意したことになるため、Claude は改めて確認しません。リポジトリのデフォルトブランチがまだ `claude/...` の場合、Claude は `main` に切り替える（**Settings → General → Default branch**）よう依頼するので、もう一度コマンドを入力してください。**Contributors** のリストはキャッシュされているため、GitHub では数時間ほど古い表示が残ることがあります。
+このコマンドを入力すると、ブランチの履歴の書き換えと強制プッシュに同意したことになるため、Claude は改めて確認しません。リポジトリのデフォルトブランチがまだ `claude/...` の場合、Claude は `main` に切り替える（**Settings → General → Default branch**）よう依頼するので、もう一度コマンドを入力してください。**Contributors** のリストはキャッシュされているため、GitHub では数時間ほど古い表示が残ることがあります。
 
 ## 内容
 
