@@ -44,6 +44,9 @@ GitHub 会把这一行视为共同作者。于是你的提交会显示 **"你 an
 | [`hooks/no-ai-attribution.sh`](hooks/no-ai-attribution.sh) | 会话开始时自动运行，即使模型忽略了技能也会生效。它把你设为提交作者，删除每条提交信息中的署名行，阻止以 `Claude <noreply@anthropic.com>` 为作者的提交，并禁止推送 `claude/...` 分支。在空仓库中会直接在 `main` 上开始工作。 |
 | [`install.sh`](install.sh) | 一条命令安装全部内容。`--name` 和 `--email` 用于设置提交作者。在 claude.ai/code 云端会话中必须提供，因为那里的 git 默认配置为 Claude。 |
 
+> [!IMPORTANT]
+> 仅有技能（例如上传到 claude.ai 的技能）**是不够的**。在云端会话中，Claude 会把会话设置（“添加 Co-Authored-By”“在 `claude/...` 分支上工作”）看得比技能更重要。但它会遵循仓库中的 `CLAUDE.md`，而且无论模型如何决定，钩子都会生效。因此请用 `install.sh`（见下文）把全部内容安装到每个仓库，并提交 `.claude/` 和 `CLAUDE.md`。
+
 ## 安装
 
 **用于所有项目：**

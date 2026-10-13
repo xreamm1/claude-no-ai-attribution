@@ -7,6 +7,10 @@ on:
         description: "Version tag, e.g. v1.0.0"
         required: true
         default: "v1.0.0"
+      replace_all:
+        description: "Delete ALL existing releases and their tags first"
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -16,6 +20,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - name: Delete existing releases and tags
+        if: ${{ inputs.replace_all }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          for tag in $(gh release list --limit 100 --json tagName --jq '.[].tagName'); do
+            gh release delete "$tag" --cleanup-tag --yes
+          done
+          for tag in $(git ls-remote --tags origin | sed -n 's#.*refs/tags/\([^^]*\)$#\1#p'); do
+            git push origin --delete "refs/tags/$tag" || true
+          done
 
       - name: Create release with SKILL.md
         env:

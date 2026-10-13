@@ -44,6 +44,9 @@ With this skill, only you are the author.
 | [`hooks/no-ai-attribution.sh`](hooks/no-ai-attribution.sh) | Runs automatically at session start, even if the model ignores the skill. It sets your name as the commit author, strips attribution lines from every commit message, blocks commits authored by `Claude <noreply@anthropic.com>`, and refuses to push `claude/...` branches. In an empty repository it starts work on `main`. |
 | [`install.sh`](install.sh) | Installs everything with one command. `--name` and `--email` set the commit author. You need them for cloud sessions on claude.ai/code, where git is preconfigured as Claude. |
 
+> [!IMPORTANT]
+> The skill alone (for example, uploaded to claude.ai) is **not enough**. In cloud sessions, Claude treats the session settings ("add Co-Authored-By", "work on a `claude/...` branch") as more important than a skill. It does follow the repository's `CLAUDE.md`, and the hooks work no matter what the model decides. So install everything into each repository with `install.sh` (see below) and commit `.claude/` and `CLAUDE.md`.
+
 ## Install
 
 **For all your projects:**
