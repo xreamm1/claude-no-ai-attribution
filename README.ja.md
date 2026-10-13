@@ -34,6 +34,23 @@ GitHub はこの行を共同作成者として扱います。その結果、コ�
 
 このスキルを使えば、作成者はあなただけになります。
 
+## クイックスタート：`/no-ai-attribution`
+
+1. [`SKILL.md`](https://github.com/xreamm1/claude-no-ai-attribution/releases/latest/download/SKILL.md) をダウンロードしてスキルとして追加します。claude.ai でアップロードする（**Settings → Capabilities → Skills**）か、`~/.claude/skills/no-ai-attribution/SKILL.md` に置きます。
+2. リポジトリで Claude Code のセッションを開き、次のように入力します。
+
+   ```
+   /no-ai-attribution
+   ```
+
+これだけです。Claude は次のことを行います。
+
+- すべての `claude/...` ブランチの作業を **`main`** に移し、`claude/...` ブランチを削除します。
+- `main` の履歴から Claude を取り除きます。Claude が作成者のコミットはあなたのものになり、`Co-Authored-By`、`Claude-Session`、「Generated with Claude Code」の行は消えます。コード自体は変わりません。
+- 以降のすべてのコミットの作成者をあなただけにし、`main` で作業を続けます。
+
+このコマンドを入力すると、`main` の履歴の書き換えと強制プッシュに同意したことになるため、Claude は改めて確認しません。リポジトリのデフォルトブランチがまだ `claude/...` の場合、Claude は `main` に切り替える（**Settings → General → Default branch**）よう依頼するので、もう一度コマンドを入力してください。**Contributors** のリストはキャッシュされているため、GitHub では数時間ほど古い表示が残ることがあります。
+
 ## 内容
 
 | ファイル | 役割 |

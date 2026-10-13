@@ -34,6 +34,23 @@ GitHub считает её соавторством. Из-за этого у к�
 
 С этим скиллом автором остаётесь только вы.
 
+## Быстрый старт: `/no-ai-attribution`
+
+1. Скачайте [`SKILL.md`](https://github.com/xreamm1/claude-no-ai-attribution/releases/latest/download/SKILL.md) и добавьте его как скилл: загрузите в claude.ai (**Settings → Capabilities → Skills**) или положите в `~/.claude/skills/no-ai-attribution/SKILL.md`.
+2. Откройте сессию Claude Code в своём репозитории и напишите:
+
+   ```
+   /no-ai-attribution
+   ```
+
+Всё. Дальше Claude сам:
+
+- переносит работу из всех веток `claude/...` в **`main`** и удаляет ветки `claude/...`;
+- убирает Claude из истории `main`. Коммиты, где автором был Claude, становятся вашими, а строки `Co-Authored-By`, `Claude-Session` и «Generated with Claude Code» исчезают. Код при этом не меняется;
+- делает вас единственным автором всех новых коммитов и продолжает работать в `main`.
+
+Написав команду, вы соглашаетесь на перезапись истории `main` и force-push, поэтому Claude не будет переспрашивать. Если основная ветка репозитория всё ещё `claude/...`, Claude попросит переключить её на `main` (**Settings → General → Default branch**) и написать команду ещё раз. Список **Contributors** GitHub может обновить только через несколько часов, потому что он кэшируется.
+
 ## Что внутри
 
 | Файл | Что делает |

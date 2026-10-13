@@ -34,6 +34,23 @@ GitHub interpreta esa línea como coautoría. Tus commits muestran **"tú and cl
 
 Con este skill, solo tú eres el autor.
 
+## Inicio rápido: `/no-ai-attribution`
+
+1. Descarga [`SKILL.md`](https://github.com/xreamm1/claude-no-ai-attribution/releases/latest/download/SKILL.md) y añádelo como skill: súbelo en claude.ai (**Settings → Capabilities → Skills**) o colócalo en `~/.claude/skills/no-ai-attribution/SKILL.md`.
+2. Abre una sesión de Claude Code en tu repositorio y escribe:
+
+   ```
+   /no-ai-attribution
+   ```
+
+Eso es todo. Claude entonces:
+
+- mueve el trabajo de todas las ramas `claude/...` a **`main`** y borra las ramas `claude/...`;
+- elimina a Claude del historial de `main`. Los commits con autor Claude pasan a ser tuyos, y desaparecen las líneas `Co-Authored-By`, `Claude-Session` y "Generated with Claude Code". El código no cambia;
+- te deja como único autor de todos los commits nuevos y sigue trabajando en `main`.
+
+Escribir el comando es tu consentimiento para reescribir el historial de `main` y hacer force-push, así que Claude no volverá a preguntar. Si la rama por defecto del repositorio sigue siendo `claude/...`, Claude te pedirá que la cambies a `main` (**Settings → General → Default branch**) y escribas el comando otra vez. GitHub puede seguir mostrando la lista antigua de **Contributors** durante unas horas, porque está en caché.
+
 ## Contenido
 
 | Archivo | Qué hace |
