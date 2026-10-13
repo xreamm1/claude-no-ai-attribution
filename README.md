@@ -41,7 +41,7 @@ With this skill, only you are the author.
 | [`skills/no-ai-attribution/SKILL.md`](skills/no-ai-attribution/SKILL.md) | The skill. It forbids `Co-Authored-By`, `Claude-Session` and `Generated with Claude Code` lines, makes the human the commit author, and checks commits before every push. |
 | [`examples/settings.json`](examples/settings.json) | Claude Code setting that turns off the built-in attribution. |
 | [`examples/CLAUDE.md`](examples/CLAUDE.md) | A short rule for `CLAUDE.md`. It works even when the skill isn't loaded. |
-| [`hooks/no-ai-attribution.sh`](hooks/no-ai-attribution.sh) | Runs automatically at session start, even if the model ignores the skill. It sets your name as the commit author, strips attribution lines from every commit message, blocks commits authored by `Claude <noreply@anthropic.com>`, and refuses to push `claude/...` branches. In an empty repository it starts work on `main`. |
+| [`SKILL.md` → `.claude/hooks/no-ai-attribution.sh`](skills/no-ai-attribution/SKILL.md) | Runs automatically at session start, even if the model ignores the skill. It sets your name as the commit author, strips attribution lines from every commit message, blocks commits authored by `Claude <noreply@anthropic.com>`, and refuses to push `claude/...` branches. In an empty repository it starts work on `main`. |
 | [`install.sh`](install.sh) | Installs everything with one command. `--name` and `--email` set the commit author. You need them for cloud sessions on claude.ai/code, where git is preconfigured as Claude. |
 
 > [!IMPORTANT]

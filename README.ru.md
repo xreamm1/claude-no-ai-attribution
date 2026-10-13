@@ -41,7 +41,7 @@ GitHub считает её соавторством. Из-за этого у к�
 | [`skills/no-ai-attribution/SKILL.md`](skills/no-ai-attribution/SKILL.md) | Сам скилл. Запрещает строки `Co-Authored-By`, `Claude-Session` и `Generated with Claude Code`, делает автором человека и проверяет коммиты перед каждым пушем. |
 | [`examples/settings.json`](examples/settings.json) | Настройка Claude Code, которая выключает встроенную подпись. |
 | [`examples/CLAUDE.md`](examples/CLAUDE.md) | Короткое правило для `CLAUDE.md`. Работает, даже если скилл не загрузился. |
-| [`hooks/no-ai-attribution.sh`](hooks/no-ai-attribution.sh) | Запускается автоматически при старте сессии, даже если модель проигнорирует скилл. Ставит вас автором коммитов, вырезает строки подписи из каждого коммита блокирует коммиты от имени `Claude <noreply@anthropic.com>` и не даёт пушить ветки `claude/...`. В пустом репозитории сразу переключает работу на `main`. |
+| [`SKILL.md` → `.claude/hooks/no-ai-attribution.sh`](skills/no-ai-attribution/SKILL.md) | Запускается автоматически при старте сессии, даже если модель проигнорирует скилл. Ставит вас автором коммитов, вырезает строки подписи из каждого коммита блокирует коммиты от имени `Claude <noreply@anthropic.com>` и не даёт пушить ветки `claude/...`. В пустом репозитории сразу переключает работу на `main`. |
 | [`install.sh`](install.sh) | Ставит всё одной командой. `--name` и `--email` задают автора коммитов. Они нужны для облачных сессий claude.ai/code, где git заранее настроен на имя Claude. |
 
 > [!IMPORTANT]

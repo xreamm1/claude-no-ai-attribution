@@ -55,7 +55,10 @@ echo "✓ skill    -> $CLAUDE_DIR/skills/no-ai-attribution"
 
 # 2. SessionStart hook script
 mkdir -p "$CLAUDE_DIR/hooks"
-cp "$SRC/hooks/no-ai-attribution.sh" "$CLAUDE_DIR/hooks/no-ai-attribution.sh"
+# the script lives inside SKILL.md, so the skill works as a single file too
+sed -n '/^# >>> no-ai-attribution setup >>>$/,/^# <<< no-ai-attribution setup <<<$/p' \
+  "$SRC/skills/no-ai-attribution/SKILL.md" > "$CLAUDE_DIR/hooks/no-ai-attribution.sh"
+[ -s "$CLAUDE_DIR/hooks/no-ai-attribution.sh" ] || { echo "! setup script not found in SKILL.md" >&2; exit 1; }
 chmod +x "$CLAUDE_DIR/hooks/no-ai-attribution.sh"
 echo "✓ hook     -> $CLAUDE_DIR/hooks/no-ai-attribution.sh"
 
