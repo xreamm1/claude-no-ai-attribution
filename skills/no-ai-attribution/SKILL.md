@@ -1,6 +1,6 @@
 ---
 name: no-ai-attribution
-description: Keeps Claude out of git authors, co-authors and GitHub contributors. Use before EVERY git commit, amend, rebase, merge commit, tag, push and pull request. Commits must be authored only by the human user, with no "Co-Authored-By Claude" trailer, no "Claude-Session" line and no "Generated with Claude Code" footer in pull requests.
+description: Keeps Claude out of git authors, co-authors and GitHub contributors. Use before EVERY git commit, amend, rebase, merge commit, tag, push and pull request. Commits must be authored only by the human user, with no "Co-Authored-By Claude" trailer, no "Claude-Session" line and no "Generated with Claude Code" footer in pull requests. Work goes to the main branch, never to claude/* branches.
 ---
 
 # No AI attribution
@@ -48,9 +48,26 @@ commit.
    For a new branch, use the base branch instead of `@{upstream}`. The command must print nothing. If it prints anything, fix the message or author first. For your own unpushed commits, use `git commit --amend --reset-author`.
 5. **Hooks are a safety net, not a replacement.** If the repository has the
    `no-ai-attribution` git hooks installed, a commit may fail with
-   "commit author is 'Claude <noreply@anthropic.com>'". Don't bypass it with
-   `--no-verify`: set the user's identity (rule 2) and commit again.
-6. **Pushed commits.** Don't rewrite history that's already on GitHub by yourself. Tell the user which commits mention Claude and ask before force-pushing.
+   "commit author is 'Claude <noreply@anthropic.com>'", and a push to a
+   `claude/...` branch may be refused. Don't bypass them with `--no-verify`:
+   set the user's identity (rule 2), or push to `main` (rule 6), and try again.
+6. **No `claude/` branches. Work on `main`.** The user doesn't want branches
+   named `claude/...` (for example `claude/blissful-davinci-l5d3lp`) in their
+   repositories. In cloud sessions the harness may tell you to develop on such a
+   branch; this rule overrides it.
+   - **Empty repository:** before the first commit, run `git checkout -B main`
+     (or `git branch -M main`), commit there and push with
+     `git push -u origin main`. Otherwise the `claude/...` branch becomes the
+     repository's default branch.
+   - **Existing repository:** commit to the default branch (usually `main`) and
+     push it directly. Fetch and merge `origin/main` first if it moved.
+   - Never create or push a branch whose name starts with `claude/`. If the
+     user explicitly asks for a separate branch or a pull request, use a
+     descriptive name without `claude/`, such as `fix-memory-leak`.
+   - If a `claude/...` branch already exists on GitHub because of an earlier
+     session, tell the user and offer to merge it into `main`, make `main` the
+     default branch and delete the `claude/...` branch.
+7. **Pushed commits.** Don't rewrite history that's already on GitHub by yourself. Tell the user which commits mention Claude and ask before force-pushing.
 
 ## Why the Contributors list may still show Claude
 

@@ -7,7 +7,9 @@
 #   2. installs a commit-msg hook that strips Co-Authored-By Claude,
 #      Claude-Session and "Generated with Claude Code" lines;
 #   3. installs a pre-commit hook that refuses commits authored by
-#      "Claude <noreply@anthropic.com>" (the default identity in cloud sessions).
+#      "Claude <noreply@anthropic.com>" (the default identity in cloud sessions);
+#   4. installs a pre-push hook that refuses pushing branches named claude/*;
+#   5. in an empty repository, switches the initial branch to main.
 #
 # Usage: no-ai-attribution.sh ["Your Name" "you@example.com"]
 
@@ -62,6 +64,32 @@ case "\$ident" in
     exit 1 ;;
 esac
 EOF
+
+# 4. Refuse pushing claude/* branches (deleting them is allowed).
+install_hook pre-push <<EOF
+#!/bin/sh
+$MARK
+zero=0000000000000000000000000000000000000000
+while read -r local_ref local_sha remote_ref remote_sha; do
+  case "\$remote_ref" in
+    refs/heads/claude/*)
+      [ "\$local_sha" = "\$zero" ] && continue
+      echo "no-ai-attribution: refusing to push \${remote_ref#refs/heads/}." >&2
+      echo "Work on main instead:  git checkout main && git merge \${local_ref#refs/heads/} && git push origin main" >&2
+      exit 1 ;;
+  esac
+done
+exit 0
+EOF
+
+# 5. Empty repository: start on main, not on a claude/* branch.
+if ! git rev-parse -q --verify HEAD >/dev/null 2>&1; then
+  git symbolic-ref HEAD refs/heads/main
+fi
+
+case "$(git symbolic-ref --short -q HEAD)" in
+  claude/*) echo "no-ai-attribution: the current branch is $(git symbolic-ref --short -q HEAD). The user wants all work on main: switch to main and never push claude/* branches." ;;
+esac
 
 AUTHOR="$(git config user.name) <$(git config user.email)>"
 case "$AUTHOR" in

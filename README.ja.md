@@ -41,7 +41,7 @@ GitHub はこの行を共同作成者として扱います。その結果、コ�
 | [`skills/no-ai-attribution/SKILL.md`](skills/no-ai-attribution/SKILL.md) | スキル本体。`Co-Authored-By`、`Claude-Session`、`Generated with Claude Code` の行を禁止し、コミットの作成者を人間にして、プッシュ前にコミットを確認します。 |
 | [`examples/settings.json`](examples/settings.json) | Claude Code の組み込みの署名をオフにする設定です。 |
 | [`examples/CLAUDE.md`](examples/CLAUDE.md) | `CLAUDE.md` 用の短いルールです。スキルが読み込まれなくても機能します。 |
-| [`hooks/no-ai-attribution.sh`](hooks/no-ai-attribution.sh) | セッション開始時に自動で実行され、モデルがスキルを無視しても機能します。コミットの作成者をあなたに設定し、すべてのコミットメッセージから署名行を削除し、`Claude <noreply@anthropic.com>` が作成者のコミットをブロックします。 |
+| [`hooks/no-ai-attribution.sh`](hooks/no-ai-attribution.sh) | セッション開始時に自動で実行され、モデルがスキルを無視しても機能します。コミットの作成者をあなたに設定し、すべてのコミットメッセージから署名行を削除し、`Claude <noreply@anthropic.com>` が作成者のコミットをブロックし、`claude/...` ブランチのプッシュを拒否します。空のリポジトリでは最初から `main` で作業します。 |
 | [`install.sh`](install.sh) | すべてを 1 つのコマンドでインストールします。`--name` と `--email` でコミットの作成者を指定します。git が Claude として事前設定されている claude.ai/code のクラウドセッションでは必須です。 |
 
 ## インストール
